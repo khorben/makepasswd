@@ -1,5 +1,5 @@
 #define PACKAGE "makepasswd"
-#define VERSION "0.5.1"
+#define VERSION "0.5.2"
 
 #ifndef PREFIX
 # define PREFIX "/usr/local"

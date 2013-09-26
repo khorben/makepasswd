@@ -1,5 +1,5 @@
 PACKAGE	= makepasswd
-VERSION	= 0.5.1
+VERSION	= 0.5.2
 SUBDIRS	= doc src
 RM	= rm -f
 LN	= ln -f
