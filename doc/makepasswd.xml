@@ -171,8 +171,8 @@
 				<term><option>-n</option></term>
 				<listitem>
 					<para>Total number of passwords to generate. When not set, it defaults
-					to only one, except in enumeration mode where it processes the
-					complete range of possibilities until exhaustion.</para>
+						to only one, except in enumeration mode where it processes the
+						complete range of possibilities until exhaustion.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
