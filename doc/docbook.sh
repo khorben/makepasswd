@@ -1,6 +1,6 @@
 #!/bin/sh
 #$Id$
-#Copyright (c) 2012 Pierre Pronchery <khorben@defora.org>
+#Copyright (c) 2012-2013 Pierre Pronchery <khorben@defora.org>
 #
 #Redistribution and use in source and binary forms, with or without
 #modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,7 @@
 #variables
 PREFIX="/usr/local"
 . "../config.sh"
+#executables
 DEBUG="_debug"
 INSTALL="install -m 0644"
 MKDIR="mkdir -m 0755 -p"
@@ -46,16 +47,20 @@ _debug()
 #usage
 _usage()
 {
-	echo "Usage: docbook.sh [-i|-u][-P prefix] target" 1>&2
+	echo "Usage: docbook.sh [-c|-i|-u][-P prefix] target..." 1>&2
 	return 1
 }
 
 
 #main
+clean=0
 install=0
 uninstall=0
-while getopts "iuP:" "name"; do
+while getopts "ciuP:" name; do
 	case "$name" in
+		c)
+			clean=1
+			;;
 		i)
 			uninstall=0
 			install=1
@@ -105,6 +110,9 @@ while [ $# -gt 0 ]; do
 			exit 2
 			;;
 	esac
+
+	#clean
+	[ "$clean" -ne 0 ] && continue
 
 	#uninstall
 	if [ "$uninstall" -eq 1 ]; then
