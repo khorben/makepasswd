@@ -58,29 +58,46 @@
 	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>&name;</command>
-			<arg choice="opt"><option>-c <replaceable>string</replaceable></option></arg>
-			<arg choice="opt"><option>-e <replaceable>algorithm</replaceable></option></arg>
-			<arg choice="opt"><option>-i <replaceable>iterations</replaceable></option></arg>
-			<arg choice="opt"><option>-l <replaceable>length</replaceable></option></arg>
-			<arg choice="opt"><option>-M <replaceable>maximum length</replaceable></option></arg>
-			<arg choice="opt"><option>-m <replaceable>minimum length</replaceable></option></arg>
-			<arg choice="opt"><option>-n <replaceable>count</replaceable></option></arg>
-			<arg choice="opt"><option>-p <replaceable>password</replaceable></option></arg>
+			<arg choice="opt"><option>-c</option>
+				<replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-e</option>
+				<replaceable>algorithm</replaceable></arg>
+			<arg choice="opt"><option>-i</option>
+				<replaceable>iterations</replaceable></arg>
+			<arg choice="opt"><option>-l</option>
+				<replaceable>length</replaceable></arg>
+			<arg choice="opt"><option>-M</option>
+				<replaceable>maximum length</replaceable></arg>
+			<arg choice="opt"><option>-m</option>
+				<replaceable>minimum length</replaceable></arg>
+			<arg choice="opt"><option>-n</option>
+				<replaceable>count</replaceable></arg>
+			<arg choice="opt"><option>-p</option>
+				<replaceable>password</replaceable></arg>
 			<arg choice="opt"><option>-S</option></arg>
-			<arg choice="opt"><option>-s <replaceable>salt</replaceable></option></arg>
+			<arg choice="opt"><option>-s</option>
+				<replaceable>salt</replaceable></arg>
 		</cmdsynopsis>
 		<cmdsynopsis>
 			<command>&name;</command>
 			<arg choice="opt"><option>-E</option></arg>
-			<arg choice="opt"><option>-c <replaceable>string</replaceable></option></arg>
-			<arg choice="opt"><option>-e <replaceable>algorithm</replaceable></option></arg>
-			<arg choice="opt"><option>-i <replaceable>iterations</replaceable></option></arg>
-			<arg choice="opt"><option>-l <replaceable>length</replaceable></option></arg>
-			<arg choice="opt"><option>-M <replaceable>maximum length</replaceable></option></arg>
-			<arg choice="opt"><option>-m <replaceable>minimum length</replaceable></option></arg>
-			<arg choice="opt"><option>-n <replaceable>count</replaceable></option></arg>
+			<arg choice="opt"><option>-c</option>
+				<replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-e</option>
+				<replaceable>algorithm</replaceable></arg>
+			<arg choice="opt"><option>-i</option>
+				<replaceable>iterations</replaceable></arg>
+			<arg choice="opt"><option>-l</option>
+				<replaceable>length</replaceable></arg>
+			<arg choice="opt"><option>-M</option>
+				<replaceable>maximum length</replaceable></arg>
+			<arg choice="opt"><option>-m</option>
+				<replaceable>minimum length</replaceable></arg>
+			<arg choice="opt"><option>-n</option>
+				<replaceable>count</replaceable></arg>
 			<arg choice="opt"><option>-S</option></arg>
-			<arg choice="opt"><option>-s <replaceable>salt</replaceable></option></arg>
+			<arg choice="opt"><option>-s</option>
+				<replaceable>salt</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 	<refsect1 id="description">
