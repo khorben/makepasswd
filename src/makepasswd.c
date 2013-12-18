@@ -380,11 +380,12 @@ static char * _hash_md5(char const * password)
 {
 	char * ret;
 	unsigned char digest[16];
+	const int len = sizeof(digest);
 	unsigned short i;
 	unsigned char j;
 	MD5_CTX c;
 
-	if((ret = malloc(33)) == NULL)
+	if((ret = malloc((len * 2) + 1)) == NULL)
 	{
 		_error("malloc", 1);
 		return NULL;
@@ -394,7 +395,7 @@ static char * _hash_md5(char const * password)
 	MD5_Update(&c, password, strlen(password));
 	MD5_Final(digest, &c);
 	/* from RFC 2617 */
-	for(i = 0; i < 16; i++)
+	for(i = 0; i < len; i++)
 	{
 		j = (digest[i] >> 4) & 0xf;
 		if(j <= 9)
@@ -407,7 +408,7 @@ static char * _hash_md5(char const * password)
 		else
 			ret[i * 2 + 1] = (j + 'a' - 10);
 	}
-	ret[32] = '\0';
+	ret[len * 2] = '\0';
 	return ret;
 }
 
