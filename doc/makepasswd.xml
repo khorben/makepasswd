@@ -8,7 +8,7 @@
 	<!ENTITY email     "khorben@defora.org">
 	<!ENTITY section   "1">
 	<!ENTITY title     "makepasswd User Manual">
-	<!ENTITY package   "DeforaOS makepasswd">
+	<!ENTITY package   "makepasswd">
 	<!ENTITY name      "makepasswd">
 	<!ENTITY purpose   "Generates (pseudo-)random passwords and hashes">
 ]>
@@ -36,6 +36,7 @@
 		</authorgroup>
 		<copyright>
 			<year>2012</year>
+			<year>2013</year>
 			<holder>&firstname; &surname; &lt;&email;&gt;</holder>
 		</copyright>
 		<legalnotice>
