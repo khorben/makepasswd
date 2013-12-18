@@ -189,8 +189,8 @@
 						<emphasis>not</emphasis> initialized, and the passwords generated
 						<emphasis>predictable</emphasis> as a result.</para>
 					<para>Use this option carefully, when you know that either the system does
-						provide better entropy than &name;, or that it hurts performance in a
-						situation where entropy is not required.</para>
+						provide better entropy than <command>&name;</command>, or that it hurts
+						performance in a situation where entropy is not required.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
