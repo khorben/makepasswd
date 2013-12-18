@@ -1,10 +1,10 @@
 TARGETS	= makepasswd.1 makepasswd.html
 PREFIX	= /usr/local
 DESTDIR	=
-RM	?= rm -f
-LN	?= ln -f
-MKDIR	?= mkdir -p
-INSTALL	?= install
+RM	= rm -f
+LN	= ln -f
+MKDIR	= mkdir -m 0755 -p
+INSTALL	= install
 
 
 all: $(TARGETS)
@@ -17,6 +17,7 @@ makepasswd.html: makepasswd.xml
 
 clean:
 	$(RM) -- $(makepasswd.1_OBJS) $(makepasswd.html_OBJS)
+	./docbook.sh -c -P "$(PREFIX)" -- "makepasswd.html"
 
 distclean: clean
 	$(RM) -- $(TARGETS)
