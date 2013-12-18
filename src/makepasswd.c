@@ -27,8 +27,7 @@
 #ifdef __linux__ /* XXX for linux portability */
 # include <crypt.h>
 #endif
-#include "global.h"
-#include "md5.h"
+#include <openssl/md5.h>
 #include "../config.h"
 
 
@@ -391,9 +390,9 @@ static char * _hash_md5(char const * password)
 		return NULL;
 	}
 	/* call md5 implementation from RSA Data Security, Inc. */
-	MD5Init(&c);
-	MD5Update(&c, password, strlen(password));
-	MD5Final(digest, &c);
+	MD5_Init(&c);
+	MD5_Update(&c, password, strlen(password));
+	MD5_Final(digest, &c);
 	/* from RFC 2617 */
 	for(i = 0; i < 16; i++)
 	{
