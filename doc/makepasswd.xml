@@ -158,15 +158,6 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><option>-i</option></term>
-				<listitem>
-					<para>Force a number of iterations to be performed when hashing
-						passwords, for algorithms effectively supporting it. It otherwise
-						defaults to a random value, in a range considered reasonable for the
-						hashing algorithm selected.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
 				<term><option>-l</option></term>
 				<listitem>
 					<para>Force the passwords generated to be of a fixed length.</para>
