@@ -741,28 +741,32 @@ int main(int argc, char * argv[])
 					return _usage();
 				break;
 			case 'i':
-				if((prefs.iterations = _parse_unsigned(optarg))
-						<= 0)
+				if((o = _parse_unsigned(optarg)) <= 0)
 					return _usage();
+				prefs.iterations = o;
 				break;
 			case 'l':
-				if((prefs.max = _parse_unsigned(optarg)) <= 0)
+				if((o = _parse_unsigned(optarg)) <= 0)
 					return _usage();
+				prefs.max = o;
 				prefs.min = prefs.max;
 				break;
 			case 'M':
-				if((prefs.max = _parse_unsigned(optarg)) <= 0)
+				if((o = _parse_unsigned(optarg)) <= 0)
 					return _usage();
+				prefs.max = o;
 				break;
 			case 'm':
-				if((prefs.min = _parse_unsigned(optarg)) <= 0)
+				if((o = _parse_unsigned(optarg)) <= 0)
 					return _usage();
+				prefs.min = o;
 				if(prefs.max < prefs.min)
 					prefs.max = prefs.min;
 				break;
 			case 'n':
-				if((prefs.count = _parse_unsigned(optarg)) <= 0)
+				if((o = _parse_unsigned(optarg)) <= 0)
 					return _usage();
+				prefs.count = o;
 				break;
 			case 'p':
 				prefs.password = optarg;
