@@ -30,6 +30,10 @@
 #include <openssl/md5.h>
 #include "../config.h"
 
+#ifndef PROGNAME
+# define PROGNAME "makepasswd"
+#endif
+
 
 /* makepasswd */
 /* private */
@@ -683,7 +687,7 @@ static int _parse_unsigned(char const * string)
 /* error */
 static int _error(char const * message, int ret)
 {
-	fputs(PACKAGE ": ", stderr);
+	fputs(PROGNAME ": ", stderr);
 	perror(message);
 	return ret;
 }
@@ -692,8 +696,8 @@ static int _error(char const * message, int ret)
 /* usage */
 static int _usage(void)
 {
-	fputs("Usage: makepasswd [-ceilMmnpSs]\n"
-"       makepasswd -E [-ceilMmnSs]\n"
+	fputs("Usage: " PROGNAME " [-ceilMmnpSs]\n"
+"       " PROGNAME " -E [-ceilMmnSs]\n"
 "  -c	String of allowed characters (A-Za-z0-9`~!@#$%^&*()-_=+)\n"
 "  -E	Enumerate all possible values\n"
 "  -e	Encryption algorithm (none,base64,blowfish,des,md5,sha1,sha256,shmd5)\n"
