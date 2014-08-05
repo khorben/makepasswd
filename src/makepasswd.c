@@ -601,7 +601,7 @@ static char * _makepasswd_password(char const * characters, size_t min,
 		_error("malloc", 1);
 		return NULL;
 	}
-	for(i = 0; i <= len; i++)
+	for(i = 0; i < len; i++)
 		ret[i] = characters[rand() % clen];
 	ret[len] = '\0';
 	return ret;
