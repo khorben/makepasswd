@@ -5,9 +5,20 @@ It is able to generate its crypted equivalent.
 Newest versions can be found at:
 https://github.com/khorben/makepasswd
 
-It just needs GCC, make and your glibc headers to compile (I'm using linux, glibc 2.2.5 and gcc 3.2.1).
+This program needs OpenSSL to build (with development headers and libraries).
+Just run "make install" and it should build and install to /usr/local.
 
-As the program now uses the GNU libc "crypt()" call, it may not compile anymore on non-GNU systems. Feedback about this would be greatly appreciated.
+To install to alternate locations, override the default as follows:
 
+  $ make PREFIX=/path/to/your/prefix install
+
+The DESTDIR variable is also supported for package maintainers.
+
+It was tested with both the clang and GCC compilers, as well as with BSD and GNU
+make. Please note however that the program now uses crypt(3), which is often
+available from the libc directly. It tries to find it and link with the libcrypt
+library by default; if this fails, try:
+
+  $ make LDFLAGS= install
 
 Feel free to send comments, suggestions to the author (see the AUTHORS file).
