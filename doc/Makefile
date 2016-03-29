@@ -1,4 +1,5 @@
-TARGETS	= makepasswd.1 makepasswd.html
+TARGETS	= $(OBJDIR)makepasswd.1 $(OBJDIR)makepasswd.html
+OBJDIR	=
 PREFIX	= /usr/local
 DESTDIR	=
 RM	= rm -f
@@ -9,22 +10,23 @@ INSTALL	= install
 
 all: $(TARGETS)
 
-makepasswd.1: makepasswd.xml
-	./docbook.sh -P "$(PREFIX)" -- "makepasswd.1"
+$(OBJDIR)makepasswd.1: makepasswd.xml
+	./docbook.sh -P "$(PREFIX)" -- "$(OBJDIR)makepasswd.1"
 
-makepasswd.html: makepasswd.xml
-	./docbook.sh -P "$(PREFIX)" -- "makepasswd.html"
+$(OBJDIR)makepasswd.html: makepasswd.xml
+	./docbook.sh -P "$(PREFIX)" -- "$(OBJDIR)makepasswd.html"
 
 clean:
 	$(RM) -- $(makepasswd.1_OBJS) $(makepasswd.html_OBJS)
-	./docbook.sh -c -P "$(PREFIX)" -- "makepasswd.html"
+	./docbook.sh -c -P "$(PREFIX)" -- "$(OBJDIR)makepasswd.1"
+	./docbook.sh -c -P "$(PREFIX)" -- "$(OBJDIR)makepasswd.html"
 
 distclean: clean
 	$(RM) -- $(TARGETS)
 
 install: $(TARGETS)
-	./docbook.sh -P "$(DESTDIR)$(PREFIX)" -i -- "makepasswd.1"
-	./docbook.sh -P "$(DESTDIR)$(PREFIX)" -i -- "makepasswd.html"
+	./docbook.sh -P "$(DESTDIR)$(PREFIX)" -i -- "$(OBJDIR)makepasswd.1"
+	./docbook.sh -P "$(DESTDIR)$(PREFIX)" -i -- "$(OBJDIR)makepasswd.html"
 
 uninstall:
 	./docbook.sh -P "$(DESTDIR)$(PREFIX)" -u -- "makepasswd.1"

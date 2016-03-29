@@ -1,4 +1,5 @@
-TARGETS	= makepasswd
+TARGETS	= $(OBJDIR)makepasswd$(EXEEXT)
+OBJDIR	=
 PREFIX	= /usr/local
 DESTDIR	=
 BINDIR	= $(PREFIX)/bin
@@ -9,6 +10,7 @@ CPPFLAGS=
 CFLAGSF	= -W
 CFLAGS	= -Wall -g -O2 -pedantic
 LDFLAGS	= -lcrypt -lcrypto
+EXEEXT	=
 RM	= rm -f
 LN	= ln -f
 MKDIR	= mkdir -m 0755 -p
@@ -17,15 +19,15 @@ INSTALL	= install
 
 all: $(TARGETS)
 
-makepasswd_OBJS = makepasswd.o
+makepasswd_OBJS = $(OBJDIR)makepasswd.o
 makepasswd_CFLAGS = $(CPPFLAGSF) $(CPPFLAGS) $(CFLAGSF) $(CFLAGS)
 makepasswd_LDFLAGS = $(LDFLAGSF) $(LDFLAGS)
 
-makepasswd: $(makepasswd_OBJS)
-	$(CC) -o makepasswd $(makepasswd_OBJS) $(makepasswd_LDFLAGS)
+$(OBJDIR)makepasswd$(EXEEXT): $(makepasswd_OBJS)
+	$(CC) -o $(OBJDIR)makepasswd$(EXEEXT) $(makepasswd_OBJS) $(makepasswd_LDFLAGS)
 
-makepasswd.o: makepasswd.c ../config.h
-	$(CC) $(makepasswd_CFLAGS) -c makepasswd.c
+$(OBJDIR)makepasswd.o: makepasswd.c ../config.h
+	$(CC) $(makepasswd_CFLAGS) -o $(OBJDIR)makepasswd.o -c makepasswd.c
 
 clean:
 	$(RM) -- $(makepasswd_OBJS)
@@ -35,9 +37,9 @@ distclean: clean
 
 install: $(TARGETS)
 	$(MKDIR) $(DESTDIR)$(BINDIR)
-	$(INSTALL) -m 0755 makepasswd $(DESTDIR)$(BINDIR)/makepasswd
+	$(INSTALL) -m 0755 $(OBJDIR)makepasswd$(EXEEXT) $(DESTDIR)$(BINDIR)/makepasswd$(EXEEXT)
 
 uninstall:
-	$(RM) -- $(DESTDIR)$(BINDIR)/makepasswd
+	$(RM) -- $(DESTDIR)$(BINDIR)/makepasswd$(EXEEXT)
 
 .PHONY: all clean distclean install uninstall
