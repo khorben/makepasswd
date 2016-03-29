@@ -1,6 +1,6 @@
 #!/bin/sh
 #$Id$
-#Copyright (c) 2012-2013 Pierre Pronchery <khorben@defora.org>
+#Copyright (c) 2012-2015 Pierre Pronchery <khorben@defora.org>
 #
 #Redistribution and use in source and binary forms, with or without
 #modification, are permitted provided that the following conditions are met:
@@ -26,12 +26,15 @@
 
 #variables
 PREFIX="/usr/local"
-. "../config.sh"
+[ -f "../config.sh" ] && . "../config.sh"
+PROGNAME="docbook.sh"
 #executables
 DEBUG="_debug"
+FOP="fop"
 INSTALL="install -m 0644"
 MKDIR="mkdir -m 0755 -p"
 RM="rm -f"
+XMLLINT="xmllint"
 XSLTPROC="xsltproc --nonet --xinclude"
 
 
@@ -39,15 +42,70 @@ XSLTPROC="xsltproc --nonet --xinclude"
 #debug
 _debug()
 {
-	echo "$@" 1>&2
+	echo "$@" 1>&3
 	"$@"
+}
+
+
+#docbook
+_docbook()
+{
+	target="$1"
+
+	source="${target%.*}.xml"
+	[ -f "$source" ] || source="${source#$OBJDIR}"
+	ext="${target##*.}"
+	ext="${ext##.}"
+	case "$ext" in
+		html)
+			XSL="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"
+			[ -f "${source%.*}.xsl" ] && XSL="${source%.*}.xsl"
+			[ -f "${target%.*}.xsl" ] && XSL="${target%.*}.xsl"
+			if [ -f "${target%.*}.css.xml" ]; then
+				XSLTPROC="$XSLTPROC --param custom.css.source \"${target%.*}.css.xml\" --param generate.css.header 1"
+			elif [ -f "${source%.*}.css.xml" ]; then
+				XSLTPROC="$XSLTPROC --param custom.css.source \"${source%.*}.css.xml\" --param generate.css.header 1"
+			fi
+			$DEBUG $XSLTPROC -o "$target" "$XSL" "$source"
+			;;
+		pdf)
+			XSL="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"
+			[ -f "${source%.*}.xsl" ] && XSL="${source%.*}.xsl"
+			[ -f "${target%.*}.xsl" ] && XSL="${target%.*}.xsl"
+			$DEBUG $XSLTPROC -o "${target%.*}.fo" "$XSL" "$source" &&
+			$DEBUG $FOP -fo "${target%.*}.fo" -pdf "$target"
+			$RM -- "${target%.*}.fo"
+			;;
+		1|2|3|4|5|6|7|8|9)
+			XSL="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
+			$DEBUG $XSLTPROC -o "$target" "$XSL" "$source"
+			;;
+		*)
+			_error "$target: Unknown type"
+			return 2
+			;;
+	esac
+
+	if [ $? -ne 0 ]; then
+		_error "$target: Could not create page"
+		$RM -- "$target"
+		return 2
+	fi
+}
+
+
+#error
+_error()
+{
+	echo "$PROGNAME: $@" 1>&2
+	return 2
 }
 
 
 #usage
 _usage()
 {
-	echo "Usage: docbook.sh [-c|-i|-u][-P prefix] target..." 1>&2
+	echo "Usage: $PROGNAME [-c|-i|-u][-P prefix] target..." 1>&2
 	return 1
 }
 
@@ -70,7 +128,7 @@ while getopts "ciuP:" name; do
 			uninstall=1
 			;;
 		P)
-			PREFIX="$2"
+			PREFIX="$OPTARG"
 			;;
 		?)
 			_usage
@@ -84,12 +142,18 @@ if [ $# -eq 0 ]; then
 	exit $?
 fi
 
+#check the variables
+if [ -z "$PACKAGE" ]; then
+	_error "The PACKAGE variable needs to be set"
+	exit $?
+fi
+
 [ -z "$DATADIR" ] && DATADIR="$PREFIX/share"
 [ -z "$MANDIR" ] && MANDIR="$DATADIR/man"
 
+exec 3>&1
 while [ $# -gt 0 ]; do
 	target="$1"
-	source="${target%.*}.xml"
 	shift
 
 	#determine the type
@@ -97,16 +161,23 @@ while [ $# -gt 0 ]; do
 	ext="${ext##.}"
 	case "$ext" in
 		html)
-			XSL="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"
-			[ -f "${target%.*}.xsl" ] && XSL="${target%.*}.xsl"
+			instdir="$DATADIR/doc/$ext/$PACKAGE"
+			source="${target#$OBJDIR}"
+			source="${source%.*}.xml"
+			xpath="string(/refentry/refmeta/manvolnum)"
+			section=$($XMLLINT --xpath "$xpath" "$source")
+			if [ $? -eq 0 -a -n "$section" ]; then
+				instdir="$DATADIR/man/html$section"
+			fi
+			;;
+		pdf)
 			instdir="$DATADIR/doc/$ext/$PACKAGE"
 			;;
 		1|2|3|4|5|6|7|8|9)
-			XSL="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
 			instdir="$MANDIR/man$ext"
 			;;
 		*)
-			echo "$0: $target: Unknown type" 1>&2
+			_error "$target: Unknown type"
 			exit 2
 			;;
 	esac
@@ -116,23 +187,24 @@ while [ $# -gt 0 ]; do
 
 	#uninstall
 	if [ "$uninstall" -eq 1 ]; then
+		target="${target#$OBJDIR}"
 		$DEBUG $RM -- "$instdir/$target"		|| exit 2
 		continue
 	fi
 
 	#install
 	if [ "$install" -eq 1 ]; then
-		$DEBUG $MKDIR -- "$instdir"			|| exit 2
-		$DEBUG $INSTALL -- "$target" "$instdir/$target"	|| exit 2
+		source="${target#$OBJDIR}"
+		dirname=
+		if [ "${source%/*}" != "$source" ]; then
+			dirname="/${source%/*}"
+		fi
+		$DEBUG $MKDIR -- "$instdir$dirname"		|| exit 2
+		$DEBUG $INSTALL "$target" "$instdir/$source"	|| exit 2
 		continue
 	fi
 
 	#create
-	$DEBUG $XSLTPROC -o "$target" "$XSL" "$source"
 	#XXX ignore errors
-	if [ $? -ne 0 ]; then
-		echo "$0: $target: Could not create page" 1>&2
-		$RM -- "$target"
-		break
-	fi
+	_docbook "$target"					|| break
 done
