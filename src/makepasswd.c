@@ -700,7 +700,7 @@ static int _usage(void)
 "       " PROGNAME " -E [-ceilMmnSs]\n"
 "  -c	String of allowed characters (A-Za-z0-9`~!@#$%^&*()-_=+)\n"
 "  -E	Enumerate all possible values\n"
-"  -e	Encryption algorithm (none,base64,blowfish,des,md5,sha1,sha256,shmd5)\n"
+"  -e	Encryption algorithm (none,base64,blowfish,des,md5,sha1,sha256,sha512,shmd5)\n"
 "  -i	Number of iterations in encryption algorithm\n"
 "  -l	Password length\n"
 "  -M	Maximum password length\n"
