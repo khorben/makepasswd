@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <errno.h>
 #ifdef __linux__ /* XXX for linux portability */
 # include <crypt.h>
@@ -663,7 +664,7 @@ static int _parse_enum(char const ** strings, char const * string)
 	size_t i;
 
 	for(i = 0; strings[i] != NULL; i++)
-		if(strcmp(strings[i], string) == 0)
+		if(strcasecmp(strings[i], string) == 0)
 			return i;
 	return -1;
 }
